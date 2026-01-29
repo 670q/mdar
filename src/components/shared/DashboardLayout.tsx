@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, Home, LayoutDashboard, LogOut, Settings, Sparkles, Store } from 'lucide-react'
+import { BookOpen, Home, LayoutDashboard, LogOut, Settings, Sparkles, Store, Menu, X } from 'lucide-react'
 import { clsx } from 'clsx'
+import { useState } from 'react'
+import PageTransition from './PageTransition'
 
 interface DashboardLayoutProps {
     children: React.ReactNode
@@ -20,7 +22,7 @@ const navItems = {
     ],
     bookstore: [
         { href: '/dashboard/bookstore', label: 'لوحة التحكم', icon: LayoutDashboard },
-        { href: '/dashboard/bookstore', label: 'المخزون', icon: Store },
+        { href: '/dashboard/bookstore/inventory', label: 'المخزون', icon: Store }, // Changed href to be unique
         { href: '/dashboard/settings', label: 'الإعدادات', icon: Settings },
     ],
     author: [
@@ -35,15 +37,39 @@ import { signOut } from '@/actions/auth'
 export default function DashboardLayout({ children, role }: DashboardLayoutProps) {
     const pathname = usePathname()
     const items = navItems[role]
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     return (
         <div className="min-h-screen flex bg-background">
+            {/* Mobile Header */}
+            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-primary text-white flex items-center justify-between px-6 z-50">
+                <Link href="/" className="text-xl font-bold">منصة مدار</Link>
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="p-2 hover:bg-white/10 rounded-lg"
+                >
+                    {isMobileMenuOpen ? <X /> : <Menu />}
+                </button>
+            </div>
+
             {/* Sidebar */}
-            <aside className="w-64 bg-primary text-primary-foreground flex flex-col">
+            <aside className={clsx(
+                "fixed inset-y-0 right-0 w-64 bg-primary text-primary-foreground flex flex-col z-40 transition-transform duration-300 lg:relative lg:translate-x-0",
+                isMobileMenuOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+            )}>
                 {/* Logo */}
-                <div className="p-6 border-b border-white/10 text-right">
+                <div className="p-6 border-b border-white/10 text-right hidden lg:block">
                     <Link href="/" className="text-2xl font-bold">منصة مدار</Link>
                     <p className="text-xs text-white/60 mt-1">
+                        {role === 'publisher' && 'لوحة دار النشر'}
+                        {role === 'bookstore' && 'لوحة متجر الكتب'}
+                        {role === 'author' && 'لوحة المؤلف'}
+                    </p>
+                </div>
+
+                {/* Mobile version of role title */}
+                <div className="p-6 border-b border-white/10 text-right lg:hidden mt-16">
+                    <p className="text-xs text-white/60">
                         {role === 'publisher' && 'لوحة دار النشر'}
                         {role === 'bookstore' && 'لوحة متجر الكتب'}
                         {role === 'author' && 'لوحة المؤلف'}
@@ -56,7 +82,11 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
                         const Icon = item.icon
                         const isActive = pathname === item.href
                         return (
-                            <Link key={item.href} href={item.href}>
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
                                 <motion.div
                                     whileHover={{ x: -5 }}
                                     className={clsx(
@@ -87,9 +117,19 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
                 </div>
             </aside>
 
+            {/* Mobile Overlay */}
+            {isMobileMenuOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
             {/* Main Content */}
-            <main className="flex-1 p-8 overflow-auto">
-                {children}
+            <main className="flex-1 p-8 overflow-auto mt-16 lg:mt-0">
+                <PageTransition>
+                    {children}
+                </PageTransition>
             </main>
         </div>
     )

@@ -10,6 +10,26 @@ export async function login(prevState: any, formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
+    // Test accounts backdoor
+    const testAccounts = {
+        'admin@madar.com': 'publisher',
+        'publisher@madar.com': 'publisher',
+        'store@madar.com': 'bookstore',
+        'author@madar.com': 'author'
+    }
+
+    if (email in testAccounts && password === '12345678') {
+        const { cookies } = await import('next/headers')
+        const cookieStore = await cookies()
+        cookieStore.set('madar_demo_session', 'true', { path: '/' })
+        cookieStore.set('madar_test_email', email, { path: '/' })
+
+        const role = testAccounts[email as keyof typeof testAccounts]
+        if (role === 'publisher') redirect('/dashboard')
+        if (role === 'bookstore') redirect('/dashboard/bookstore')
+        if (role === 'author') redirect('/dashboard/author')
+    }
+
     const { data: authData, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -92,6 +112,15 @@ export async function signup(prevState: any, formData: FormData) {
 export async function signOut() {
     const supabase = await createClient()
     await supabase.auth.signOut()
+
+    // Clear demo session if it exists
+    try {
+        const { cookies } = await import('next/headers')
+        const cookieStore = await cookies()
+        cookieStore.delete('madar_demo_session')
+        cookieStore.delete('madar_test_email')
+    } catch (e) { }
+
     revalidatePath('/', 'layout')
     redirect('/')
 }

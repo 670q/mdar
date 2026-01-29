@@ -133,7 +133,27 @@ export default function DashboardPage() {
                     router.push('/')
                 }
             } else {
-                router.push('/login')
+                // Check for Test Session
+                const cookies = document.cookie.split('; ').reduce((acc, current) => {
+                    const [name, value] = current.split('=')
+                    acc[name] = value
+                    return acc
+                }, {} as Record<string, string>)
+
+                if (cookies['madar_demo_session'] === 'true') {
+                    const testEmail = cookies['madar_test_email'] || 'admin@madar.com'
+                    setUserEmail(testEmail)
+
+                    const roleMap: Record<string, any> = {
+                        'admin@madar.com': 'publisher',
+                        'publisher@madar.com': 'publisher',
+                        'store@madar.com': 'bookstore',
+                        'author@madar.com': 'author'
+                    }
+                    setRole(roleMap[testEmail] || 'publisher')
+                } else {
+                    router.push('/login')
+                }
             }
             setLoading(false)
         }
