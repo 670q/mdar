@@ -9,8 +9,18 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-    title: "Madar Platform | منصة مدار",
-    description: "وسعتك المعرفة - المنصة الأحدث للكتب والمؤلفين",
+    title: "منصة مدار | وسعتك المعرفة",
+    description: "المنصة الأحدث للكتب والمؤلفين - اكتشف عالم المعرفة مع مدار",
+    icons: {
+        icon: "/favicon.jpg",
+        apple: "/logo.jpg",
+    },
+    openGraph: {
+        title: "منصة مدار | وسعتك المعرفة",
+        description: "المنصة الأحدث للكتب والمؤلفين - اكتشف عالم المعرفة مع مدار",
+        images: ["/logo.jpg"],
+        type: "website",
+    },
 };
 
 export default function RootLayout({
