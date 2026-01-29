@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { motion } from 'framer-motion'
 import { Button, Card } from '@/components/ui/core'
 import { BookOpen, Sparkles, Store, ArrowRight, Star, Quote } from 'lucide-react'
@@ -289,8 +291,8 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
             <div className="space-y-6 max-w-sm">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center">
-                  <BookOpen className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <img src="/logo.jpg" alt="Logo" className="w-full h-full object-contain rounded-xl shadow-sm" />
                 </div>
                 <span className="text-3xl font-bold text-primary">مدار</span>
               </div>

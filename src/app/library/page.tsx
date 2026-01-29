@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import Navbar from '@/components/shared/Navbar'
 import { Card } from '@/components/ui/core'
 import { motion } from 'framer-motion'

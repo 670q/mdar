@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import DashboardLayout from '@/components/shared/DashboardLayout'
 import { motion } from 'framer-motion'
 import { BookOpen, Sparkles, Users, Store } from 'lucide-react'
