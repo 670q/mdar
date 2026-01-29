@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { signup } from '@/actions/auth'
 import { Button, Input, Card } from '@/components/ui/core'
 import { motion } from 'framer-motion'
