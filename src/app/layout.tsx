@@ -9,6 +9,7 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
     title: "منصة مدار | وسعتك المعرفة",
     description: "المنصة الأحدث للكتب والمؤلفين - اكتشف عالم المعرفة مع مدار",
     icons: {

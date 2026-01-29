@@ -68,8 +68,12 @@ export default function Navbar() {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                            <BookOpen className="w-5 h-5 text-white" />
+                        <div className="relative w-10 h-10 flex items-center justify-center">
+                            <img
+                                src="/logo.jpg"
+                                alt="منصة مدار"
+                                className="w-full h-full object-contain rounded-lg"
+                            />
                         </div>
                         <span className="text-xl font-bold text-primary">مدار</span>
                     </Link>

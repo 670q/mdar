@@ -42,8 +42,11 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
     return (
         <div className="min-h-screen flex bg-background">
             {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-primary text-white flex items-center justify-between px-6 z-50">
-                <Link href="/" className="text-xl font-bold">منصة مدار</Link>
+            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-primary/10 text-primary flex items-center justify-between px-6 z-50">
+                <Link href="/" className="flex items-center gap-2">
+                    <img src="/logo.jpg" alt="Logo" className="w-8 h-8 rounded" />
+                    <span className="text-xl font-bold">منصة مدار</span>
+                </Link>
                 <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     className="p-2 hover:bg-white/10 rounded-lg"
@@ -59,7 +62,10 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
             )}>
                 {/* Logo */}
                 <div className="p-6 border-b border-white/10 text-right hidden lg:block">
-                    <Link href="/" className="text-2xl font-bold">منصة مدار</Link>
+                    <Link href="/" className="flex items-center gap-3 justify-end mb-2">
+                        <span className="text-2xl font-bold">منصة مدار</span>
+                        <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-lg bg-white p-0.5" />
+                    </Link>
                     <p className="text-xs text-white/60 mt-1">
                         {role === 'publisher' && 'لوحة دار النشر'}
                         {role === 'bookstore' && 'لوحة متجر الكتب'}
